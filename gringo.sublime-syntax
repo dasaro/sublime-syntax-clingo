@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html for instructions
-name: Gringo
+name: clingo
 file_extensions:
   - lp
 scope: source.lp
@@ -15,17 +15,41 @@ contexts:
   # The main context is the initial starting point of our syntax.
   # Include other contexts from here (or specify them directly).
   main:
+    - include: head_predicates
     - include: pythonscript
     - include: luascript
+    - include: rules
+    - include: types
     - include: keywords
+    - include: funcs
+    - match: \(
+      push: head_inside_predicate
+
+  head_inside_predicate:
     - include: numbers
     - include: strings
     - include: vars
-    - include: rules
     - include: opers
-    - include: types
-    - include: funcs
-    - include: terms
+    - include: head_terms
+
+    - match: \(
+      push: head_inside_predicate
+
+    - match: \)
+      pop: true
+
+  body_inside_predicate:
+    - include: numbers
+    - include: strings
+    - include: vars
+    - include: opers
+    - include: body_terms
+
+    - match: \(
+      push: body_inside_predicate
+
+    - match: \)
+      pop: true
 
   # Python script integration with clingo
   pythonscript:
@@ -59,6 +83,28 @@ contexts:
     # Color in red
     - match: ':-'
       scope: keyword.control.lp
+      push: body
+
+  body:
+    - include: body_predicates
+    - include: pythonscript
+    - include: luascript
+    - include: keywords
+    - include: numbers
+    - include: strings
+    - include: vars
+    - include: rules
+    - include: opers
+    - include: types
+    - include: funcs
+
+    - match: '[a-z][a-zA-Z0-9_]*'
+    
+    - match: \(
+      push: body_inside_predicate
+
+    - match: \.
+      pop: true
 
   # Operator symbols
   opers:
@@ -85,11 +131,22 @@ contexts:
     - match: '#true|#false|not'
       scope: constant.character.lp
 
-  # Terms
-  terms:
+  # Predicates
+  head_predicates:
     # Color in green
     - match: '[a-z][a-zA-Z0-9_]*'
       scope: entity.name.function.lp
+
+  # Terms
+  head_terms:
+    # Color in green
+    - match: '@?[a-z][a-zA-Z0-9_]*'
+      scope: keyword.operator.logical.lp
+
+  body_terms:
+    # Color in green
+    - match: '@?[a-z][a-zA-Z0-9_]*'
+      scope: keyword.operator.logical.lp
 
   # Numbers[Natural Number only]
   numbers:

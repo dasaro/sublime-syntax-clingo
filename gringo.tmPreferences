@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>name</key>
-    <string>Gringo</string>
+    <string>clingo (Answer Set Programming)</string>
     <key>scope</key>
     <string>source.lp</string>
     <key>fileTypes</key>
