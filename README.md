@@ -1,1 +1,1 @@
-A fork of [`sublime-syntax-clingo`][https://github.com/tobielf/sublime-syntax-clingo/] which aloows for the use of distinct rules (and coloring) for body and head of rules.
+A fork of [`sublime-syntax-clingo`](https://github.com/tobielf/sublime-syntax-clingo/) which allows for the use of distinct rules (and coloring) for body and head of rules when using Sublime Text Editor. See the [original repository](https://github.com/tobielf/sublime-syntax-clingo/) for more information.
